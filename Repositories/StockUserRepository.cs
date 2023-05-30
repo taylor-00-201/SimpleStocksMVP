@@ -127,10 +127,19 @@ FROM [SimpleStocks].dbo.StockUser";
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO [StockUser] ([UserName], [Email], [FirstName], [LastName], [IsAdmin])
-                  VALUES (
-                    @UserName, @Email, @FirstName, @LastName, @IsAdmin);
-                INSERT INTO [Login] (UserId, PasswordHash, Email) VALUES (SCOPE_IDENTITY(), @PasswordHash, @Email);";
+                    cmd.CommandText = @"INSERT INTO [StockUser] ([UserName], [Email], [FirstName], [LastName], [IsAdmin], [AddressLineOne], [AddressLineTwo], [City], [State], [Zip])
+    VALUES (@UserName, @Email, @FirstName, @LastName, @IsAdmin, @AddressLineOne, @AddressLineTwo, @City, @State, @Zip);
+
+    DECLARE @NewStockUserId INT;
+    SET @NewStockUserId = SCOPE_IDENTITY();
+
+    INSERT INTO [Login] (UserID, PasswordHash, Email) 
+    VALUES (@NewStockUserId, @PasswordHash, @Email);
+
+    INSERT INTO [BankAccounts] ([UserId], [Balance])
+    VALUES (@NewStockUserId, @Balance);
+"
+;
 
                     cmd.Parameters.AddWithValue("@UserName", registerUser.UserName);
                     cmd.Parameters.AddWithValue("@Email", registerUser.Email);
@@ -138,7 +147,17 @@ FROM [SimpleStocks].dbo.StockUser";
                     cmd.Parameters.AddWithValue("@LastName", registerUser.LastName);
                     cmd.Parameters.AddWithValue("@IsAdmin", false);
                     cmd.Parameters.AddWithValue("@PasswordHash", registerUser.PasswordHash);
+                    cmd.Parameters.AddWithValue("@AddressLineOne", registerUser.AddressLineOne);
+                    cmd.Parameters.AddWithValue("@AddressLineTwo", registerUser.AddressLineTwo);
+                    cmd.Parameters.AddWithValue("@City", registerUser.City);
+                    cmd.Parameters.AddWithValue("@State", registerUser.State);
+                    cmd.Parameters.AddWithValue("@Zip", registerUser.Zip);
+
+                    Random random = new Random();
+                    int userBalance = random.Next(1, 1000000);
+                    cmd.Parameters.AddWithValue("@Balance", userBalance);
                     cmd.ExecuteNonQuery();
+
 
                 }
 

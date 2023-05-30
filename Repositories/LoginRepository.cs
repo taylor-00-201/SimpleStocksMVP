@@ -21,16 +21,16 @@ namespace SimpleStocks.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT TOP 1 * FROM(SELECT [StockUser].Id AS Id, [StockUser].UserName AS UserName, [StockUser].Email AS Email, [StockUser].FirstName AS FirstName, [StockUser].LastName AS LastName, [StockUser].IsAdmin AS IsAdmin, 
+                    cmd.CommandText = @"SELECT TOP 1 [StockUser].Id AS Id, [StockUser].UserName AS UserName, [StockUser].Email AS Email, [StockUser].FirstName AS FirstName, [StockUser].LastName AS LastName, [StockUser].IsAdmin AS IsAdmin, 
                                                      [StockUser].AddressLineOne AS AddressLineOne, [StockUser].AddressLineTwo AS AddressLineTwo, [StockUser].City AS City,
                                                     [StockUser].State AS State, [StockUser].Zip AS Zip
                                                      FROM[StockUser]
-                                                     --INNER JOIN[Login] ON[StockUser].Id = [Login].UserId
-                                                     WHERE--[Login].PasswordHash = @PasswordHash AND [StockUser].Email = @EmailId";
+                                                      INNER JOIN[Login] ON[StockUser].Id = [Login].UserId
+                                                     WHERE [Login].PasswordHash = @PasswordHash AND [StockUser].Email = @Email";
 
-                    cmd.Parameters.AddWithValue("@Password", loginRequest.PasswordHash);
+                    cmd.Parameters.AddWithValue("@PasswordHash", loginRequest.PasswordHash);
                     //cmd.Parameters.AddWithValue("@Id", credentials.Id);
-                    cmd.Parameters.AddWithValue("@EmailId", loginRequest.Email);
+                    cmd.Parameters.AddWithValue("@Email", loginRequest.Email);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -62,7 +62,7 @@ namespace SimpleStocks.Repositories
         }
 
         
-        public void UpdateCredentialsAdmin(string Email, string PasswordHash)
+        public void UpdateCredentials(string Email, string PasswordHash)
         {
             try
             {
