@@ -52,10 +52,7 @@ GO
 CREATE TABLE [BankAccounts] (
   [Id] integer IDENTITY PRIMARY KEY not null,
   [UserId] integer not null,
-  [Balance] decimal not null,
-  [AccountNumber] int not null,
-  [RoutingNumber] int not null,
-  [BankName] nvarchar(255) not null
+  [Balance] decimal not null
 )
 GO
 
