@@ -127,17 +127,14 @@ FROM [SimpleStocks].dbo.StockUser";
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO [StockUser] ([UserName], [Email], [FirstName], [LastName], [IsAdmin], [AddressLineOne], [AddressLineTwo], [City], [State], [Zip])
-    VALUES (@UserName, @Email, @FirstName, @LastName, @IsAdmin, @AddressLineOne, @AddressLineTwo, @City, @State, @Zip);
+                    cmd.CommandText = @"INSERT INTO [StockUser] ([UserName], [Email], [FirstName], [LastName], [IsAdmin], [AddressLineOne], [AddressLineTwo], [City], [State], [Zip], [Balance])
+    VALUES (@UserName, @Email, @FirstName, @LastName, @IsAdmin, @AddressLineOne, @AddressLineTwo, @City, @State, @Zip, @Balance);
 
     DECLARE @NewStockUserId INT;
     SET @NewStockUserId = SCOPE_IDENTITY();
 
     INSERT INTO [Login] (UserID, PasswordHash, Email) 
     VALUES (@NewStockUserId, @PasswordHash, @Email);
-
-    INSERT INTO [BankAccounts] ([UserId], [Balance])
-    VALUES (@NewStockUserId, @Balance);
 "
 ;
 
@@ -161,51 +158,51 @@ FROM [SimpleStocks].dbo.StockUser";
 
                 }
 
-                conn.Close ();
+                conn.Close();
             }
         }
 
 
-        //public StockUser UpdateUser(UpdateStockUserModel userModel)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection conn = Connection)
-        //        {
-        //            conn.Open();
+        public StockUser UpdateUser(UpdateStockUserModel userModel)
+        {
+            try
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
 
-        //            using (SqlCommand cmd = conn.CreateCommand())
-        //            {
-        //                cmd.CommandText = @"UPDATE dbo.[StockUser] 
-        //                              SET [UserName] = @UserName,
-        //                                  [Email] = @Email,
-        //                                  [FirstName] = @FirstName,
-        //                                  [LastName] = @LastName
-        //                                  WHERE Id = @Id
-        //                                  UPDATE dbo.[Login]
-        //                                  SET[Email] = @Email,
-        //                                  [PasswordHash] = @PasswordHash
-        //                                  WHERE UserId = @Id AND PasswordHash = @PasswordHash";
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE dbo.[StockUser] 
+                                      SET [UserName] = @UserName,
+                                          [Email] = @Email,
+                                          [FirstName] = @FirstName,
+                                          [LastName] = @LastName
+                                          WHERE Id = @Id
+                                          UPDATE dbo.[Login]
+                                          SET[Email] = @Email,
+                                          [PasswordHash] = @PasswordHash
+                                          WHERE UserId = @Id AND PasswordHash = @PasswordHash";
 
-        //                cmd.Parameters.AddWithValue("@UserName", userModel.UserName);
-        //                cmd.Parameters.AddWithValue("@Email", userModel.Email);
-        //                cmd.Parameters.AddWithValue("@FirstName", userModel.FirstName);
-        //                cmd.Parameters.AddWithValue("@LastName", userModel.LastName);
-        //                cmd.Parameters.AddWithValue("@PasswordHash", userModel.PasswordHash);
+                        cmd.Parameters.AddWithValue("@UserName", userModel.UserName);
+                        cmd.Parameters.AddWithValue("@Email", userModel.Email);
+                        cmd.Parameters.AddWithValue("@FirstName", userModel.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", userModel.LastName);
+                        cmd.Parameters.AddWithValue("@PasswordHash", userModel.PasswordHash);
 
-        //                int affectedRows = cmd.ExecuteNonQuery();
-        //                Console.WriteLine($"affected rows {affectedRows}");
+                        cmd.ExecuteNonQuery();
 
+                    }
 
-        //            }
-        //            return null;
-        //        }
-        //    }
-        //    catch (Exception Ex)
-        //    {
-        //       Console.WriteLine("The user was unabe to be updated " + Ex.Message);
-        //    }
-        //}
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("The user was unabe to be updated " + Ex.Message);
+            }
+
+            return null;
+        }
 
         public void DeleteUserById(int UserId)
         {
@@ -235,6 +232,38 @@ FROM [SimpleStocks].dbo.StockUser";
             {
 
                 Console.WriteLine("There was an error deleteing the selected user: " + Ex.Message);
+            }
+        }
+
+        public void AddToBankAccount(BankAccounts bankAccount)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE [StockUser] SET [Balance] = [Balance] + @Balance WHERE [Id] = @UserId";
+                    cmd.Parameters.AddWithValue("@UserId", bankAccount.UserId);
+                    cmd.Parameters.AddWithValue("@Balance", bankAccount.Balance);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void SubtractFromBankAccount(BankAccounts bankAccount)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE [StockUser] SET [Balance] = [Balance] - @Balance WHERE [Id] = @UserId";
+                    cmd.Parameters.AddWithValue("@UserId", bankAccount.UserId);
+                    cmd.Parameters.AddWithValue("@Balance", bankAccount.Balance);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }

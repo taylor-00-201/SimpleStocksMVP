@@ -17,7 +17,8 @@ namespace SimpleStocks
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<IStockUserRepository, StockUserRepository>();
             builder.Services.AddTransient<ILoginRepository, LoginRepository>();
-            //builder.Services.AddTransient<IBankAccountRepository, BankAccountRepository>();
+            builder.Services.AddTransient<IAssetRepository , AssetRepository>();
+            builder.Services.AddTransient<ITransactionsRepository, TransactionsRepository>();
 
             var app = builder.Build();
 

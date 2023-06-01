@@ -14,5 +14,7 @@
         public string? State { get; set; }
         public int Zip { get; set; }
         public string PasswordHash { get; set; }
+
+        public decimal Balance { get; set; } 
     }
 }
