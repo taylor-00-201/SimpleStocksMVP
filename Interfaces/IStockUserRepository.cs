@@ -5,10 +5,12 @@ namespace SimpleStocks.Interfaces
 {
     public interface IStockUserRepository
     {
+        void AddToBankAccount(BankAccounts bankAccount);
         void DeleteUserById(int UserId);
         List<StockUser> GetAllStockUsers();
         StockUser GetStockUserById(int id);
         void RegisterUser(RegisterUser registerUser);
-       // StockUser UpdateUser(UpdateStockUserModel userModel);
+        void SubtractFromBankAccount(BankAccounts bankAccount);
+        StockUser UpdateUser(UpdateStockUserModel userModel);
     }
 }

@@ -9,18 +9,6 @@ IF OBJECT_ID('SimpleStocks.dbo.Transactions', 'U') IS NOT NULL
 DROP TABLE SimpleStocks.dbo.Transactions
 GO
 
-IF OBJECT_ID('SimpleStocks.dbo.UserAssets', 'U') IS NOT NULL
-DROP TABLE SimpleStocks.dbo.UserAssets
-GO
-
-IF OBJECT_ID('SimpleStocks.dbo.[Order]', 'U') IS NOT NULL
-DROP TABLE SimpleStocks.dbo.[Order]
-GO
-
-IF OBJECT_ID('SimpleStocks.dbo.BankAccounts', 'U') IS NOT NULL
-DROP TABLE SimpleStocks.dbo.BankAccounts
-GO
-
 IF OBJECT_ID('SimpleStocks.dbo.Login', 'U') IS NOT NULL
 DROP TABLE SimpleStocks.dbo.Login
 GO
@@ -45,19 +33,13 @@ CREATE TABLE [StockUser] (
   [AddressLineTwo] varchar(255) not null,
   [City] varchar(255) not null,
   [State] varchar(255) not null,
-  [Zip] int not null
-)
-GO
-
-CREATE TABLE [BankAccounts] (
-  [Id] integer IDENTITY PRIMARY KEY not null,
-  [UserId] integer not null,
+  [Zip] int not null,
   [Balance] decimal not null
 )
 GO
 
 CREATE TABLE [Assets] (
-  [Id] integer PRIMARY KEY not null,
+  [Id] integer IDENTITY PRIMARY KEY not null,
   [symbol] nvarchar(255) not null,
   [Name] nvarchar(255) not null,
   [CurrentPrice] decimal not null
@@ -76,49 +58,19 @@ CREATE TABLE [Transactions] (
 )
 GO
 
-CREATE TABLE [Order] (
-  [Id] integer IDENTITY PRIMARY KEY not null,
-  [UserId] integer not null,
-  [OrderStatus] nvarchar(255) not null,
-  [Total] decimal not null
-)
-GO
-
-CREATE TABLE [UserAssets] (
-  [Id] integer IDENTITY PRIMARY KEY not null,
-  [UserId] integer not null,
-  [AssetId] integer not null,
-  [Quantity] integer not null
-)
-GO
-
 CREATE TABLE [Login] (
   [Id] integer IDENTITY PRIMARY KEY not null,
   [UserId] integer not null,
   [PasswordHash] nvarchar(255) not null,
-  [Email] nvarchar(255) not null 
+  [Email] nvarchar(255) UNIQUE not null 
 )
 GO
 
-ALTER TABLE [UserAssets] ADD FOREIGN KEY ([UserId]) REFERENCES [StockUser] ([Id])
-GO
-
-ALTER TABLE [UserAssets] ADD FOREIGN KEY ([AssetId]) REFERENCES [Assets] ([Id])
-GO
 
 ALTER TABLE [Transactions] ADD FOREIGN KEY ([UserId]) REFERENCES [StockUser] ([Id])
 GO
 
 ALTER TABLE [Transactions] ADD FOREIGN KEY ([AssetId]) REFERENCES [Assets] ([Id])
-GO
-
-ALTER TABLE [Order] ADD FOREIGN KEY ([UserId]) REFERENCES [StockUser] ([Id])
-GO
-
-ALTER TABLE [Transactions] ADD FOREIGN KEY ([OrderId]) REFERENCES [Order] ([Id])
-GO
-
-ALTER TABLE [BankAccounts] ADD FOREIGN KEY ([UserId]) REFERENCES [StockUser] ([Id])
 GO
 
 ALTER TABLE [Login] ADD FOREIGN KEY ([UserId]) REFERENCES [StockUser] ([Id])

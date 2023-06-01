@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using SimpleStocks.Interfaces;
 using System.Net.WebSockets;
 using SimpleStocks.Models.UserLogin;
+using SimpleStocks.Models;
+
 
 namespace SimpleStocks.Controllers
 {
@@ -42,12 +44,12 @@ namespace SimpleStocks.Controllers
         }
 
 
-        //[HttpPut("updateuser")]
-        //public IActionResult UpdateUser(UpdateStockUserModel userModel) 
-        //{
-        //    _StockUserRepo.UpdateUser(userModel);
-        //    return Ok();
-        //}
+        [HttpPut("updateuser")]
+        public IActionResult UpdateUser(UpdateStockUserModel userModel)
+        {
+            var updatedUser = _StockUserRepo.UpdateUser(userModel);
+            return Ok(updatedUser);
+        }
 
 
         [HttpDelete("deleteuser/{UserId}")]
@@ -55,6 +57,20 @@ namespace SimpleStocks.Controllers
         {
             _StockUserRepo.DeleteUserById(UserId);
             return Ok();
+        }
+
+        [HttpPut("AddToBankAccount")]
+        public IActionResult AddToBankAccount(BankAccounts bankAccount)
+        {
+            _StockUserRepo.AddToBankAccount(bankAccount);
+            return NoContent();
+        }
+
+        [HttpPut("SubtractFromBankAccount")]
+        public IActionResult SubtractFromBankAccount(BankAccounts bankAccount)
+        {
+            _StockUserRepo.SubtractFromBankAccount(bankAccount);
+            return NoContent();
         }
     }
 }

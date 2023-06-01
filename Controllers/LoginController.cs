@@ -17,16 +17,17 @@ namespace SimpleStocks.Controllers
             _LoginRepo = LoginRepo;
         }
 
-        [HttpPost("Login/")]
+        [HttpPost("Login")]
         public IActionResult LoginWithCredientials(LoginRequest loginRequest)
         {
             var logInUser = _LoginRepo.LoginWithCredentials(loginRequest);
             return Ok(logInUser);
         }
 
-        [HttpPut("Login/Update/")]
-        public IActionResult UpdateCredentials(string Email, string PasswordHash) 
+        [HttpPut("Update")]
+        public IActionResult UpdateCredentials(LoginRequest loginRequest) 
         {
+            _LoginRepo.UpdateCredentials(loginRequest);
             return Ok();
         }
 
