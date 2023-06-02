@@ -163,7 +163,7 @@ FROM [SimpleStocks].dbo.StockUser";
         }
 
 
-        public StockUser UpdateUser(UpdateStockUserModel userModel)
+        public void UpdateUser(UpdateStockUserModel userModel, int Id)
         {
             try
             {
@@ -173,23 +173,29 @@ FROM [SimpleStocks].dbo.StockUser";
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"UPDATE dbo.[StockUser] 
+                        cmd.CommandText = @"
+                                          ALTER TABLE Login NOCHECK CONSTRAINT FK__Login__Email__3D14070F;
+
+                                          UPDATE dbo.[Login]
+                                          SET [Email] = @Email, [PasswordHash] = @PasswordHash
+                                          WHERE UserId = @Id               
+   
+                                          UPDATE dbo.[StockUser] 
                                       SET [UserName] = @UserName,
                                           [Email] = @Email,
                                           [FirstName] = @FirstName,
                                           [LastName] = @LastName,
-                                          [PasswordHash] = @PasswordHash,
-                                          [IsAdmin] = False,
+                                          [IsAdmin] = 0,
                                           [AddressLineOne] = @AddressLineOne,
                                           [AddressLineTwo] = @AddressLineTwo,
                                           [City] = @City,
                                           [State] = @State,
-                                          [Zip] = @Zip,
+                                          [Zip] = @Zip
                                           WHERE Id = @Id
-                                          UPDATE dbo.[Login]
-                                          SET[Email] = @Email,
-                                          WHERE UserId = @Id AND PasswordHash = @PasswordHash";
 
+                                          ALTER TABLE Login CHECK CONSTRAINT FK__Login__Email__3D14070F;";
+
+                        cmd.Parameters.AddWithValue("@Id", Id);
                         cmd.Parameters.AddWithValue("@UserName", userModel.UserName);
                         cmd.Parameters.AddWithValue("@Email", userModel.Email);
                         cmd.Parameters.AddWithValue("@FirstName", userModel.FirstName);
@@ -200,8 +206,6 @@ FROM [SimpleStocks].dbo.StockUser";
                         cmd.Parameters.AddWithValue("@City", userModel.City);
                         cmd.Parameters.AddWithValue("@State", userModel.State);
                         cmd.Parameters.AddWithValue("@Zip", userModel.Zip);
-
-
                         cmd.ExecuteNonQuery();
 
                     }
@@ -213,7 +217,37 @@ FROM [SimpleStocks].dbo.StockUser";
                 Console.WriteLine("The user was unabe to be updated " + Ex.Message);
             }
 
-            return null;
+
+        }
+
+        public void UpdateUserToAdmin(int Id)
+        {
+            try
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"
+                                          UPDATE dbo.[StockUser] 
+                                      SET [IsAdmin] = 1
+                                      WHERE Id = @Id;";
+
+                        cmd.Parameters.AddWithValue("@Id", Id);
+                        cmd.ExecuteNonQuery();
+
+                    }
+
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("The user was unabe to be updated " + Ex.Message);
+            }
+
+
         }
 
         public void DeleteUserById(int UserId)

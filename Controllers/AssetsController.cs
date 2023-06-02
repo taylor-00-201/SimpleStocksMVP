@@ -45,7 +45,7 @@ namespace SimpleStocks.Controllers
             return Ok(returnedAsset);
         }
 
-        [HttpPost("AllAssets")]
+        [HttpGet("AllAssets")]
         public IActionResult GetAllAssets()
         {
            var allAssets = _assetRepository.GetAllAssets();
@@ -57,6 +57,13 @@ namespace SimpleStocks.Controllers
         public IActionResult RemoveAsset(int Id)
         {
             _assetRepository.RemoveAsset(Id);
+            return NoContent();
+        }
+
+        [HttpPost("UpdateAsset")]
+        public IActionResult UpdateAsset(Asset asset, int Id)
+        {
+            _assetRepository.UpdateAsset(asset, Id);
             return NoContent();
         }
 

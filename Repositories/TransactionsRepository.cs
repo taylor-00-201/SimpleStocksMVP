@@ -191,6 +191,52 @@ namespace SimpleStocks.Repositories
             }
         }
 
+        public void UpdateTransaction(Transactions transaction, int Id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE dbo.[Transactions]
+                                 SET  TransactionType = @TransactionType,
+                                      Quantity = @Quantity,
+                                      AssetId = @AssetId,
+                                      DateTime = @DateTime,
+                                      OrderId = @OrderId, 
+                                      Amount = @Amount
+                                      Where Id = @Id;";
+
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.Parameters.AddWithValue("@TransactionType", transaction.TransactionType);
+                    cmd.Parameters.AddWithValue("@Quantity", transaction.Quantity);
+                    cmd.Parameters.AddWithValue("@AssetId", transaction.AssetId);
+                    cmd.Parameters.AddWithValue("@DateTime", transaction.DateTime);
+                    cmd.Parameters.AddWithValue("@OrderId", transaction.OrderId);
+                    cmd.Parameters.AddWithValue("@Amount", transaction.Amount);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        public void DeleteTransaction(int Id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM Transactions WHERE Id = @Id;";
+
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
 
 
 
