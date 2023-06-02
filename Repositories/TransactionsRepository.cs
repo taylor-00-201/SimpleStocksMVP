@@ -215,7 +215,13 @@ namespace SimpleStocks.Repositories
                     cmd.Parameters.AddWithValue("@DateTime", transaction.DateTime);
                     cmd.Parameters.AddWithValue("@OrderId", transaction.OrderId);
                     cmd.Parameters.AddWithValue("@Amount", transaction.Amount);
-                    cmd.ExecuteNonQuery();
+                    var foundTransaction = (int)cmd.ExecuteNonQuery();
+
+
+                    if (foundTransaction == 0)
+                    {
+                        throw new Exception("the record was not found");
+                    }
                 }
             }
         }
@@ -232,7 +238,13 @@ namespace SimpleStocks.Repositories
                     cmd.CommandText = @"DELETE FROM Transactions WHERE Id = @Id;";
 
                     cmd.Parameters.AddWithValue("@Id", Id);
-                    cmd.ExecuteNonQuery();
+                   var count = (int)cmd.ExecuteNonQuery();
+
+
+                    if (count == 0) 
+                    {
+                        throw new Exception("the record was not found");
+                    }
                 }
             }
         }
