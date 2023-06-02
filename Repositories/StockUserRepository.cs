@@ -177,11 +177,17 @@ FROM [SimpleStocks].dbo.StockUser";
                                       SET [UserName] = @UserName,
                                           [Email] = @Email,
                                           [FirstName] = @FirstName,
-                                          [LastName] = @LastName
+                                          [LastName] = @LastName,
+                                          [PasswordHash] = @PasswordHash,
+                                          [IsAdmin] = False,
+                                          [AddressLineOne] = @AddressLineOne,
+                                          [AddressLineTwo] = @AddressLineTwo,
+                                          [City] = @City,
+                                          [State] = @State,
+                                          [Zip] = @Zip,
                                           WHERE Id = @Id
                                           UPDATE dbo.[Login]
                                           SET[Email] = @Email,
-                                          [PasswordHash] = @PasswordHash
                                           WHERE UserId = @Id AND PasswordHash = @PasswordHash";
 
                         cmd.Parameters.AddWithValue("@UserName", userModel.UserName);
@@ -189,6 +195,12 @@ FROM [SimpleStocks].dbo.StockUser";
                         cmd.Parameters.AddWithValue("@FirstName", userModel.FirstName);
                         cmd.Parameters.AddWithValue("@LastName", userModel.LastName);
                         cmd.Parameters.AddWithValue("@PasswordHash", userModel.PasswordHash);
+                        cmd.Parameters.AddWithValue("@AddressLineOne", userModel.AddressLineOne);
+                        cmd.Parameters.AddWithValue("@AddressLineTwo", userModel.AddressLineTwo);
+                        cmd.Parameters.AddWithValue("@City", userModel.City);
+                        cmd.Parameters.AddWithValue("@State", userModel.State);
+                        cmd.Parameters.AddWithValue("@Zip", userModel.Zip);
+
 
                         cmd.ExecuteNonQuery();
 
