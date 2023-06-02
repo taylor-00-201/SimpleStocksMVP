@@ -11,6 +11,7 @@ namespace SimpleStocks.Interfaces
         StockUser GetStockUserById(int id);
         void RegisterUser(RegisterUser registerUser);
         void SubtractFromBankAccount(BankAccounts bankAccount);
-        StockUser UpdateUser(UpdateStockUserModel userModel);
+        void UpdateUser(UpdateStockUserModel userModel, int Id);
+        void UpdateUserToAdmin(int Id);
     }
 }

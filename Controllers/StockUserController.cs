@@ -45,10 +45,10 @@ namespace SimpleStocks.Controllers
 
 
         [HttpPut("updateuser")]
-        public IActionResult UpdateUser(UpdateStockUserModel userModel)
+        public IActionResult UpdateUser(UpdateStockUserModel userModel, int Id)
         {
-            var updatedUser = _StockUserRepo.UpdateUser(userModel);
-            return Ok(updatedUser);
+            _StockUserRepo.UpdateUser(userModel, Id);
+            return NoContent();
         }
 
 
@@ -63,6 +63,14 @@ namespace SimpleStocks.Controllers
         public IActionResult AddToBankAccount(BankAccounts bankAccount)
         {
             _StockUserRepo.AddToBankAccount(bankAccount);
+            return NoContent();
+        }
+
+
+        [HttpPut("UpdateToAdmin")]
+        public IActionResult UpdateUserToAdmin(int Id)
+        {
+            _StockUserRepo.UpdateUserToAdmin(Id);
             return NoContent();
         }
 

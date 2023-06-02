@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using SimpleStocks.Interfaces;
 using SimpleStocks.Models;
+using SimpleStocks.Repositories;
 
 namespace SimpleStocks.Controllers
 {
@@ -39,11 +40,18 @@ namespace SimpleStocks.Controllers
         }
 
 
-        [HttpPost("ProcessTransaction")]
-        public IActionResult ProcessTransaction(Transactions transaction)
+        [HttpPost("UpdateTransaction")]
+        public IActionResult ProcessTransaction(Transactions transaction, int Id)
         {
-            _transactioRepo.ProcessTransaction(transaction);
+            _transactioRepo.UpdateTransaction(transaction, Id);
             return NoContent();
-         }
-}
+        }
+
+        [HttpDelete("DeleteTransaction")]
+        public IActionResult RemoveAsset(int Id)
+        {
+            _transactioRepo.DeleteTransaction(Id);
+            return NoContent();
+        }
+    }
 }

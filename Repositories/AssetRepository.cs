@@ -214,10 +214,36 @@ namespace SimpleStocks.Repositories
             }
         }
 
-        //public void UpdateAsset()
-        //{
+        public void UpdateAsset(Asset asset, int Id)
+        {
+            try
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
 
-        //}
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE dbo.ASSETS 
+                                          SET [Symbol] = @Symbol,
+                                              [Name] = @Name,
+                                              [CurrentPrice] = @CurrentPrice
+                                              WHERE Id = @Id;";
+                        cmd.Parameters.AddWithValue("@Id", Id);
+                        cmd.Parameters.AddWithValue("@symbol", asset.Symbol);
+                        cmd.Parameters.AddWithValue("@Name", asset.Name);
+                        cmd.Parameters.AddWithValue("@CurrentPrice", asset.CurrentPrice);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex);
+            }
+        }
 
     }
 }

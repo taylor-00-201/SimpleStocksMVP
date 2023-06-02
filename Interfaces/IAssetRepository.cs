@@ -10,5 +10,6 @@ namespace SimpleStocks.Interfaces
         Asset GetAssetByName(string Name);
         Asset GetAssetBySymbol(string Symbol);
         void RemoveAsset(int Id);
+        void UpdateAsset(Asset asset, int Id);
     }
 }
