@@ -17,10 +17,12 @@ namespace SimpleStocks
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<IStockUserRepository, StockUserRepository>();
             builder.Services.AddTransient<ILoginRepository, LoginRepository>();
-            builder.Services.AddTransient<IAssetRepository , AssetRepository>();
+            builder.Services.AddTransient<IAssetRepository, AssetRepository>();
             builder.Services.AddTransient<ITransactionsRepository, TransactionsRepository>();
 
             var app = builder.Build();
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

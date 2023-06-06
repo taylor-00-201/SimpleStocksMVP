@@ -11,9 +11,19 @@ export const AllStocksView = () => {
 
 
     useEffect(() => {
-        
+        fetch(`http//Localhost:7043/api/Assets/AllAssets`).then((Response) =>
+          Response.json().then((data) => {
+            data.map((stock) => ({
+              Symbol: stock.Symbol,
+              Name: stock.Name,
+              CurrentPrice: stock.CurrentPrice,
+            }));
+            setAllStocksFetch(stock);
+          })
+        );
       }, []);
       
+      const 
 
       return (
         <div>
