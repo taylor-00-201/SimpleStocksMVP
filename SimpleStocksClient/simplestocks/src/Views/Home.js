@@ -17,10 +17,10 @@ const Home = (props) => {
         alert("You are not logged in!");
         navigate("/login");
       } else {
-        setUser(JSON.parse(localStorage.StockUser));
+        props.SetUser(JSON.parse(localStorage.StockUser));
       }
     }
-  }, [props.user]);
+  }, []);
 
   const fetchData = async () => {
     try {
