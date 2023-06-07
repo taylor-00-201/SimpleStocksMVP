@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
+export const Login = (props) => {
   const [errors, setErrors] = useState("");
   const [userData, setUserData] = useState([]);
   const [Email, setUserEmail] = useState("");
@@ -31,7 +31,7 @@ export const Login = () => {
     console.log(transitoryobject);
 
     try {
-      if (transitoryobject.isAdmin === true) {
+      if (transitoryobject.isAdmin === false) {
         let StockUser = "StockUser";
 
         localStorage.setItem(
@@ -72,9 +72,10 @@ export const Login = () => {
 
       const data = await response.json();
       console.log(data);
-      console.log(data.user["User"]);
-      setLocalStorage(data["User"]);
-      setUserType(data);
+      console.log(data.user);
+      setLocalStorage(data.user);
+      setUserType(data.user);
+      props.SetUser(data.user)
 
       if (
         response.ok &&

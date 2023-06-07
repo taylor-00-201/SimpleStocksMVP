@@ -23,7 +23,6 @@ export const AllStocksView = () => {
         );
       }, []);
       
-      const 
 
       return (
         <div>

@@ -1,9 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const Home = () => {
+const Home = (props) => {
+  console.log("homeprops", props);
   const [stockData, setStockData] = useState([]);
+
+  if (props.user === null || props.user === undefined) {
+    //alert("You are not logged in!");
+    redirect("/settings");
+  }
 
   const fetchData = async () => {
     try {
