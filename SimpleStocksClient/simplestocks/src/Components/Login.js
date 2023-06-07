@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 export const Login = () => {
   const [errors, setErrors] = useState("");
   const [userData, setUserData] = useState([]);
-  const [userEmail, setUserEmail] = useState("");
-  const [passwordHash, setPasswordHash] = useState("");
+  const [Email, setUserEmail] = useState("");
+  const [PasswordHash, setPasswordHash] = useState("");
   const [userType, setUserType] = useState({
     firstName: "",
     lastName: "",
@@ -24,23 +24,23 @@ export const Login = () => {
     const transitoryobject = {
       firstName: data.firstName,
       lastName: data.lastName,
-      Email: data.email,
-      IsAdmin: data.IsAdmin,
+      email: data.email,
+      isAdmin: data.isAdmin,
     };
 
     console.log(transitoryobject);
 
     try {
-      if (transitoryobject.IsAdmin === true) {
+      if (transitoryobject.isAdmin === true) {
         let StockUser = "StockUser";
 
         localStorage.setItem(
           StockUser,
           JSON.stringify({
-            FirstName: transitoryobject.FirstName,
-            LastName: transitoryobject.LastName,
-            Email: transitoryobject.Email,
-            UserType: transitoryobject.IsAdmin,
+            firstName: transitoryobject.firstName,
+            lastName: transitoryobject.lastName,
+            email: transitoryobject.email,
+            userType: transitoryobject.isAdmin,
           })
         );
       } else {
@@ -59,8 +59,8 @@ export const Login = () => {
         `https://localhost:7043/api/Login/LoginUser`,
         {
           body: JSON.stringify({
-            Email: userEmail,
-            Password: passwordHash,
+            Email: Email,
+            PasswordHash: PasswordHash,
           }),
           credentials: "include",
           method: "POST",
@@ -72,8 +72,8 @@ export const Login = () => {
 
       const data = await response.json();
       console.log(data);
-      console.log(data["user"]);
-      setLocalStorage(data["user"]);
+      console.log(data.user["User"]);
+      setLocalStorage(data["User"]);
       setUserType(data);
 
       if (
@@ -116,14 +116,14 @@ export const Login = () => {
           Email:
           <input
             type='text'
-            value={userEmail}
+            value={Email}
             onChange={(event) => setUserEmail(event.target.value)}
           ></input>
         </label>
         Password:
         <input
           type='text'
-          value={passwordHash}
+          value={PasswordHash}
           onChange={(event) => setPasswordHash(event.target.value)}
         ></input>
         <label>
