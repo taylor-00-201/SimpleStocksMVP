@@ -13,7 +13,11 @@ export default function App() {
     <Routes>
       <Route path='/login' element={<Login SetUser={setUser} />} />
       <Route path='/' element={<Layout />} />
-      <Route path='/home' index element={<Home user={user} />} />
+      <Route
+        path='/home'
+        index
+        element={<Home user={user} SetUser={setUser} />}
+      />
       <Route path='/settings' element={<Settings user={user} />} />
     </Routes>
   );

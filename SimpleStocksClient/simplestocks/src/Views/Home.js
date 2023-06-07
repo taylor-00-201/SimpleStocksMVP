@@ -10,8 +10,15 @@ const Home = (props) => {
 
   useEffect(() => {
     if (props.user === null || props.user === undefined) {
-      alert("You are not logged in!");
-      navigate("/login");
+      if (
+        localStorage.getItem("StockUser") === null ||
+        localStorage.getItem("StockUser") === undefined
+      ) {
+        alert("You are not logged in!");
+        navigate("/login");
+      } else {
+        setUser(JSON.parse(localStorage.StockUser));
+      }
     }
   }, [props.user]);
 
