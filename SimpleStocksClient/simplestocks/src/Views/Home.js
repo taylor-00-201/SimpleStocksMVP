@@ -6,10 +6,14 @@ const Home = (props) => {
   console.log("homeprops", props);
   const [stockData, setStockData] = useState([]);
 
-  if (props.user === null || props.user === undefined) {
-    //alert("You are not logged in!");
-    redirect("/settings");
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.user === null || props.user === undefined) {
+      alert("You are not logged in!");
+      navigate("/login");
+    }
+  }, [props.user]);
 
   const fetchData = async () => {
     try {
@@ -21,6 +25,10 @@ const Home = (props) => {
       console.log(stockData);
     } catch (error) {}
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // function GetAllData() {
   // fetch(`http//Localhost:7043/api/Assets/AllAssets`).then((Response) =>
