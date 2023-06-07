@@ -40,8 +40,15 @@ namespace SimpleStocks.Controllers
         }
 
 
-        [HttpPost("UpdateTransaction")]
-        public IActionResult ProcessTransaction(Transactions transaction, int Id)
+        [HttpPost("ProcessTransaction")]
+        public IActionResult ProcessTransaction(Transactions transaction)
+        {
+            _transactioRepo.ProcessTransaction(transaction);
+            return NoContent();
+        }
+
+        [HttpPut("UpdateTransaction")]
+        public IActionResult UpdateTransaction(Transactions transaction, int Id) 
         {
             _transactioRepo.UpdateTransaction(transaction, Id);
             return NoContent();

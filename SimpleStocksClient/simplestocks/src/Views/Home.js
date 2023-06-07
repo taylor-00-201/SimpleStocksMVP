@@ -29,10 +29,7 @@ const Home = () => {
   //   })
   // );
 
-
-
-  return(<button onClick={fetchData}>See Stocks</button>);
-
+  return <button onClick={fetchData}>See Stocks</button>;
 };
 
 export default Home;

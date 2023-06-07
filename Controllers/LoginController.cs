@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimpleStocks.Interfaces;
 using SimpleStocks.Models.UserLogin;
 
+
 namespace SimpleStocks.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -17,15 +20,50 @@ namespace SimpleStocks.Controllers
             _LoginRepo = LoginRepo;
         }
 
-        [HttpPost("Login")]
-        public IActionResult LoginWithCredientials(LoginRequest loginRequest)
+        
+        [HttpPost("LoginUser")]
+        public IActionResult LoginWithCredientials([FromBody] LoginRequest loginRequest)
         {
-            var logInUser = _LoginRepo.LoginWithCredentials(loginRequest);
-            return Ok(logInUser);
+            var logInResponse = _LoginRepo.LoginWithCredentials(loginRequest);
+
+
+
+            Console.WriteLine(loginRequest);
+
+            if (loginRequest == null)
+            {
+                return NotFound();
+            }
+
+            CookieOptions cookie = new CookieOptions
+            {
+                HttpOnly = false,
+                Secure = true,
+                Expires = DateTime.UtcNow.AddDays(2),
+                SameSite = SameSiteMode.None,
+            };
+
+
+            Console.WriteLine(loginRequest);
+
+
+            var responseBody = new ResponseBody()
+            {
+                StatusCode = 200,
+                StatusText = "OK",
+                User = logInResponse
+            };
+
+            Response.Cookies.Append("authCookie", $"{loginRequest.Email}", cookie);
+           
+
+
+            return Ok(responseBody);
         }
 
+
         [HttpPut("Update")]
-        public IActionResult UpdateCredentials(LoginRequest loginRequest) 
+        public IActionResult UpdateCredentials(LoginRequest loginRequest)
         {
             _LoginRepo.UpdateCredentials(loginRequest);
             return Ok();

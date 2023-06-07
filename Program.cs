@@ -7,7 +7,18 @@ namespace SimpleStocks
     {
         public static void Main(string[] args)
         {
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:3000").AllowCredentials().AllowAnyHeader();
+                                  });
+            });
+
 
             // Add services to the container.
 
@@ -21,8 +32,7 @@ namespace SimpleStocks
             builder.Services.AddTransient<ITransactionsRepository, TransactionsRepository>();
 
             var app = builder.Build();
-
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(MyAllowSpecificOrigins);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
