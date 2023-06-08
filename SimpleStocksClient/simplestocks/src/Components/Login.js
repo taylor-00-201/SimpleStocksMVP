@@ -13,6 +13,7 @@ export const Login = (props) => {
     lastName: "",
     email: "",
     isStaff: false,
+    id: "",
   });
 
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const Login = (props) => {
       lastName: data.lastName,
       email: data.email,
       isAdmin: data.isAdmin,
+      id: data.id,
     };
 
     console.log(transitoryobject);
@@ -41,6 +43,7 @@ export const Login = (props) => {
             lastName: transitoryobject.lastName,
             email: transitoryobject.email,
             userType: transitoryobject.isAdmin,
+            id: transitoryobject.id,
           })
         );
       } else {
@@ -75,7 +78,7 @@ export const Login = (props) => {
       console.log(data.user);
       setLocalStorage(data.user);
       setUserType(data.user);
-      props.SetUser(data.user)
+      props.SetUser(data.user);
 
       if (
         response.ok &&

@@ -5,6 +5,7 @@ import Home from "./Views/Home";
 import Layout from "./Components/Layout";
 import Settings from "./Views/Settings";
 import { Login } from "./Components/Login";
+import { BuyStock } from "./Components/BuyStock";
 
 export default function App() {
   const [user, setUser] = useState();
@@ -19,6 +20,7 @@ export default function App() {
         element={<Home user={user} SetUser={setUser} />}
       />
       <Route path='/settings' element={<Settings user={user} />} />
+      <Route path='/buystocks' element={<BuyStock />}/>
     </Routes>
   );
 }
