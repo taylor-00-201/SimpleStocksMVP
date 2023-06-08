@@ -40,9 +40,9 @@ GO
 
 CREATE TABLE [Assets] (
   [Id] integer IDENTITY PRIMARY KEY not null,
-  [symbol] nvarchar(255) not null,
-  [Name] nvarchar(255) not null,
-  [CurrentPrice] decimal not null
+  [symbol] nvarchar(255) UNIQUE not null,
+  [Name] nvarchar(255) UNIQUE not null,
+  [CurrentPrice] decimal UNIQUE not null
 )
 GO
 
@@ -51,16 +51,16 @@ CREATE TABLE [Transactions] (
   [UserId] integer not null,
   [TransactionType] nvarchar(255) not null,
   [Quantity] integer not null,
-  [AssetId] integer not null,
+  [AssetId] integer UNIQUE not null,
   [DateTime] DateTime not null,
-  [OrderId] integer not null,
+  [OrderId] integer UNIQUE not null,
   [Amount] decimal not null
 )
 GO
 
 CREATE TABLE [Login] (
   [Id] integer IDENTITY PRIMARY KEY not null,
-  [UserId] integer not null,
+  [UserId] integer UNIQUE not null,
   [PasswordHash] nvarchar(255) not null,
   [Email] nvarchar(255) UNIQUE not null 
 )
