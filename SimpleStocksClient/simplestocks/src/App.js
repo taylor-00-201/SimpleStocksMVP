@@ -20,7 +20,7 @@ export default function App() {
         element={<Home user={user} SetUser={setUser} />}
       />
       <Route path='/settings' element={<Settings user={user} />} />
-      <Route path='/buystocks' element={<BuyStock />}/>
+      <Route path='/buystocks' element={<BuyStock />} />
     </Routes>
   );
 }
