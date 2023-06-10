@@ -50,7 +50,7 @@ namespace SimpleStocks.Repositories
                                 AddressLineTwo = DbUtils.GetString(reader, "AddressLineTwo"),
                                 City = DbUtils.GetString(reader, "City"),
                                 State = DbUtils.GetString(reader, "State"),
-                                Zip = DbUtils.GetInt(reader, "Zip")
+                                Zip = DbUtils.GetString(reader, "Zip")
                             };
                             reader.Close();
                             return loginResponse;

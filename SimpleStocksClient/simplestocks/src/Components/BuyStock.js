@@ -5,10 +5,10 @@ import StockCard from "./StockCard";
 import BuyStockEngine from "./BuyStockEngine";
 
 export const BuyStock = () => {
-  let [userTransactions, setUserTransactions] = useState([]);
-  let [matchingStockTransaction, setMatchingStockTransaction] = useState([]);
-  let [stocks, setStocks] = useState([]);
-  let [userStocks, setUserStocks] = useState([]);
+  const [userTransactions, setUserTransactions] = useState([]);
+  const [matchingStockTransaction, setMatchingStockTransaction] = useState([]);
+  const [stocks, setStocks] = useState([]);
+  const [userStocks, setUserStocks] = useState([]);
 
   const parsedTransactions = userTransactions;
   const StockUser = JSON.parse(localStorage.getItem("StockUser"));
@@ -27,7 +27,21 @@ export const BuyStock = () => {
       `https://localhost:7043/api/Assets/AllAssets`
     )
       .then((response) => response.json())
-      .then((data) => setStocks(data));
+      .then((data) => {
+        let updatedData = [];
+        for (let i = 0; i < data.length; i++) {
+          let anotherStockPrice =
+            Math.random(data[i].currentPrice) + data[i].currentPrice;
+          let newRandomPrice = Math.max(
+            Math.min(Math.round(anotherStockPrice * 1.5), 600),
+            100
+          );
+          let singleInstance = data[i];
+          singleInstance.currentPrice = newRandomPrice;
+          updatedData.push(singleInstance);
+        }
+        setStocks(updatedData);
+      });
   };
 
   const identifyUserStocks = () => {
@@ -69,13 +83,13 @@ export const BuyStock = () => {
     <div>
       {stocks.length !== 0 &&
         stocks.map((stock, index) => <StockCard index={index} stock={stock} />)}
-      <div>{<BuyStockEngine />}</div>
+     <BuyStockEngine stock={stocks}/>
       <div>
         {matchingStockTransaction.length !== 0 &&
           matchingStockTransaction.map((match, index) => (
             <div key={index}>
               <div>
-                <h1>transaction</h1>
+                <h1>transaction History</h1>
                 <h1>transaction Type: {match.transaction.transactionType}</h1>
                 <h1>Quantity: {match.transaction.quantity}</h1>
                 <h1>Date: {match.transaction.datetime}</h1>

@@ -4,12 +4,13 @@ using SimpleStocks.Interfaces;
 using System.Net.WebSockets;
 using SimpleStocks.Models.UserLogin;
 using SimpleStocks.Models;
-
+using Microsoft.AspNetCore.Cors;
 
 namespace SimpleStocks.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class StockUserController : ControllerBase
     {
         private readonly IStockUserRepository _StockUserRepo;

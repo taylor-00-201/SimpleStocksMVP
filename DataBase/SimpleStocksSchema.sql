@@ -33,7 +33,7 @@ CREATE TABLE [StockUser] (
   [AddressLineTwo] varchar(255) not null,
   [City] varchar(255) not null,
   [State] varchar(255) not null,
-  [Zip] int not null,
+  [Zip] varchar(15) not null,
   [Balance] decimal not null
 )
 GO
@@ -76,5 +76,5 @@ GO
 ALTER TABLE [Login] ADD FOREIGN KEY ([UserId]) REFERENCES [StockUser] ([Id])
 GO
 
-ALTER TABLE [Login] ADD FOREIGN KEY ([Email]) REFERENCES [StockUser] ([Email])
-GO
+--ALTER TABLE [Login] ADD FOREIGN KEY ([Email]) REFERENCES [StockUser] ([Email])
+--GO

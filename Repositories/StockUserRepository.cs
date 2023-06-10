@@ -174,7 +174,7 @@ FROM [SimpleStocks].dbo.StockUser";
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"
-                                          ALTER TABLE Login NOCHECK CONSTRAINT FK__Login__Email__3D14070F;
+                                         
 
                                           UPDATE dbo.[Login]
                                           SET [Email] = @Email, [PasswordHash] = @PasswordHash
@@ -193,7 +193,11 @@ FROM [SimpleStocks].dbo.StockUser";
                                           [Zip] = @Zip
                                           WHERE Id = @Id
 
-                                          ALTER TABLE Login CHECK CONSTRAINT FK__Login__Email__3D14070F;";
+                                         ";
+
+                        //ALTER TABLE Login CHECK CONSTRAINT FK__Login__Email__3D14070F;
+
+                        //ALTER TABLE Login NOCHECK CONSTRAINT FK__Login__Email__3D14070F;
 
                         cmd.Parameters.AddWithValue("@Id", Id);
                         cmd.Parameters.AddWithValue("@UserName", userModel.UserName);
@@ -262,8 +266,6 @@ FROM [SimpleStocks].dbo.StockUser";
                     {
                         cmd.CommandText = @"DELETE FROM BankAccounts WHERE UserId = @UserId
                                         DELETE FROM Transactions WHERE UserId = @UserId
-                                        DELETE FROM [Order] WHERE UserId = @UserId
-                                        DELETE FROM UserAssets WHERE UserId = @UserId
                                         DELETE FROM Login WHERE UserId = @UserId
                                         DELETE FROM StockUser WHERE Id = @UserId";
 

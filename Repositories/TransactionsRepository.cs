@@ -170,24 +170,32 @@ namespace SimpleStocks.Repositories
 
         public void ProcessTransaction(Transactions transaction)
         {
-            using (SqlConnection conn = Connection)
+            try
             {
-                conn.Open();
-
-                using (SqlCommand cmd = conn.CreateCommand())
+                using (SqlConnection conn = Connection)
                 {
-                    cmd.CommandText = @"INSERT INTO Transactions ([UserId], [TransactionType], [Quantity], [AssetId], [DateTime], [OrderId], [Amount]) 
+                    conn.Open();
+
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"INSERT INTO Transactions ([UserId], [TransactionType], [Quantity], [AssetId], [DateTime], [OrderId], [Amount]) 
                                        Values (@UserId, @TransactionType, @Quantity, @AssetId, @DateTime, @OrderId, @Amount);";
 
-                    cmd.Parameters.AddWithValue("@UserId", transaction.UserId);
-                    cmd.Parameters.AddWithValue("@TransactionType", transaction.TransactionType);
-                    cmd.Parameters.AddWithValue("@Quantity", transaction.Quantity);
-                    cmd.Parameters.AddWithValue("@AssetId", transaction.AssetId);
-                    cmd.Parameters.AddWithValue("@DateTime", transaction.DateTime);
-                    cmd.Parameters.AddWithValue("@OrderId", transaction.OrderId);
-                    cmd.Parameters.AddWithValue("@Amount", transaction.Amount);
-                    cmd.ExecuteNonQuery();
+                        cmd.Parameters.AddWithValue("@UserId", transaction.UserId);
+                        cmd.Parameters.AddWithValue("@TransactionType", transaction.TransactionType);
+                        cmd.Parameters.AddWithValue("@Quantity", transaction.Quantity);
+                        cmd.Parameters.AddWithValue("@AssetId", transaction.AssetId);
+                        cmd.Parameters.AddWithValue("@DateTime", transaction.DateTime);
+                        cmd.Parameters.AddWithValue("@OrderId", transaction.OrderId);
+                        cmd.Parameters.AddWithValue("@Amount", transaction.Amount);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (Exception Ex)
+            {
+
+                Console.WriteLine($"an error occoured: {Ex.Message}");
             }
         }
 
