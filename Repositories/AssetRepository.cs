@@ -199,8 +199,7 @@ namespace SimpleStocks.Repositories
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"DELETE FROM ASSETS ([symbol], [Name], [CurrentPrice) VALUES (@symbol, @Name, @CurrentPrice) 
-                                          WHERE Id = @Id;";
+                        cmd.CommandText = @"DELETE FROM ASSETS WHERE Id = @Id;";
                         cmd.Parameters.AddWithValue("@Id", Id);
                         cmd.ExecuteNonQuery();
                     }

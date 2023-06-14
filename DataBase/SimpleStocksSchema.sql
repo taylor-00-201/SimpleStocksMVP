@@ -51,7 +51,7 @@ CREATE TABLE [Transactions] (
   [UserId] integer not null,
   [TransactionType] nvarchar(255) not null,
   [Quantity] integer not null,
-  [AssetId] integer UNIQUE not null,
+  [AssetId] integer not null,
   [DateTime] DateTime not null,
   [OrderId] integer UNIQUE not null,
   [Amount] decimal not null

@@ -27,7 +27,7 @@ namespace SimpleStocks.Repositories
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"SELECT [Id], [UserName], [Email], [FirstName], [LastName], [IsAdmin], [AddressLineOne], [AddressLineTwo], [City], [State], [Zip]
+                        cmd.CommandText = @"SELECT [Id], [UserName], [Email], [FirstName], [LastName], [IsAdmin], [AddressLineOne], [AddressLineTwo], [City], [State], [Zip], [Balance]
 FROM [SimpleStocks].dbo.StockUser";
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -48,7 +48,8 @@ FROM [SimpleStocks].dbo.StockUser";
                                     AddressLineTwo = DbUtils.GetString(reader, "AddressLineTwo"),
                                     City = DbUtils.GetString(reader, "City"),
                                     State = DbUtils.GetString(reader, "State"),
-                                    Zip = DbUtils.GetInt(reader, "Zip")
+                                    Zip = DbUtils.GetString(reader, "Zip"),
+                                    Balance = DbUtils.GetDecimal(reader, "Balance")
                                 };
 
                                 StockUsers.Add(User);
@@ -79,7 +80,7 @@ FROM [SimpleStocks].dbo.StockUser";
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"SELECT [Id], [UserName], [Email], [FirstName], [LastName], [IsAdmin], [AddressLineOne], [AddressLineTwo], [City], [State], [Zip]
+                        cmd.CommandText = @"SELECT [Id], [UserName], [Email], [FirstName], [LastName], [IsAdmin], [AddressLineOne], [AddressLineTwo], [City], [State], [Zip], [Balance]
                         FROM [SimpleStocks].dbo.StockUser
                         WHERE Id = @id";
 
@@ -97,7 +98,13 @@ FROM [SimpleStocks].dbo.StockUser";
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
-                                    IsAdmin = DbUtils.GetBoolean(reader, "IsAdmin")
+                                    IsAdmin = DbUtils.GetBoolean(reader, "IsAdmin"),
+                                    AddressLineOne = DbUtils.GetString(reader, "AddressLineOne"),
+                                    AddressLineTwo = DbUtils.GetString(reader, "AddressLineTwo"),
+                                    City = DbUtils.GetString(reader, "City"),
+                                    State = DbUtils.GetString(reader, "State"),
+                                    Zip = DbUtils.GetString(reader, "Zip"),
+                                    Balance = DbUtils.GetDecimal(reader, "Balance")
                                 };
 
                                 return User;
@@ -264,7 +271,7 @@ FROM [SimpleStocks].dbo.StockUser";
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"DELETE FROM BankAccounts WHERE UserId = @UserId
+                        cmd.CommandText = @"
                                         DELETE FROM Transactions WHERE UserId = @UserId
                                         DELETE FROM Login WHERE UserId = @UserId
                                         DELETE FROM StockUser WHERE Id = @UserId";

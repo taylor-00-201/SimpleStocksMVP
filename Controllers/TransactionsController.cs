@@ -55,7 +55,7 @@ namespace SimpleStocks.Controllers
         }
 
         [HttpDelete("DeleteTransaction")]
-        public IActionResult RemoveAsset(int Id)
+        public IActionResult DeleteTransaction(int Id)
         {
             _transactioRepo.DeleteTransaction(Id);
             return NoContent();

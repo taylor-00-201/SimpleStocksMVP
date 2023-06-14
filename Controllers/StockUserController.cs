@@ -23,9 +23,9 @@ namespace SimpleStocks.Controllers
         [HttpGet("allusers")]
         public IActionResult GetAllStockUsers()
         {
-            var returnedUseres = _StockUserRepo.GetAllStockUsers();
+            var returnedUsers = _StockUserRepo.GetAllStockUsers();
 
-            return Ok(returnedUseres);
+            return Ok(returnedUsers);
         }
 
         [HttpGet("getuserbyid/{Id}")]

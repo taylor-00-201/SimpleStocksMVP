@@ -6,7 +6,7 @@ const Home = (props) => {
   console.log("homeprops", props);
   const [stockData, setStockData] = useState([]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     if (props.user === null || props.user === undefined) {

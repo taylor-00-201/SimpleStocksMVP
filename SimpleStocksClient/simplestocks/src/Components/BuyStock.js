@@ -4,7 +4,7 @@ import { useFetcher } from "react-router-dom";
 import StockCard from "./StockCard";
 import BuyStockEngine from "./BuyStockEngine";
 
-export const BuyStock = () => {
+export const BuyStock = (props) => {
   const [userTransactions, setUserTransactions] = useState([]);
   const [matchingStockTransaction, setMatchingStockTransaction] = useState([]);
   const [stocks, setStocks] = useState([]);
@@ -83,7 +83,7 @@ export const BuyStock = () => {
     <div>
       {stocks.length !== 0 &&
         stocks.map((stock, index) => <StockCard index={index} stock={stock} />)}
-     <BuyStockEngine stock={stocks}/>
+      <BuyStockEngine stock={stocks} />
       <div>
         {matchingStockTransaction.length !== 0 &&
           matchingStockTransaction.map((match, index) => (

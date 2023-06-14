@@ -113,7 +113,7 @@ const BuyStockEngine = (props) => {
     }, []);
   };
 
-  return <div>Buy Stocks here!</div>;
+  return <div>This is the stock engine component!</div>;
 };
 
 export default BuyStockEngine;

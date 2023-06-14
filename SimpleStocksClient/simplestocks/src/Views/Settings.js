@@ -1,5 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { json } from "react-router-dom";
+import { DeleteUser } from "../Components/Styling/DeleteUser";
 
 const Settings = () => {
   const [userName, setUserName] = useState("");
@@ -13,10 +15,15 @@ const Settings = () => {
   const [State, setState] = useState("");
   const [Zip, setZip] = useState("");
 
-  const StockUser = JSON.parse(localStorage.getItem("StockUser"));
-  const stockUserId = StockUser ? StockUser.id : null;
+  //const StockUser = JSON.parse(localStorage.getItem("StockUser"));
+  //const stockUserId = StockUser ? StockUser.id : null;
 
-  const fetchDataPost = async (stockUserId) => {
+  const stockUser = JSON.parse(localStorage.getItem("StockUser"));
+
+  const stockUserId = stockUser.id;
+
+
+  const fetchDataPost = async () => {
     try {
       const response = await fetch(
         `https://localhost:7043/api/StockUser/updateuser?Id=${stockUserId}
@@ -51,7 +58,7 @@ const Settings = () => {
 
   const submissionHandler = (event) => {
     event.preventDefault();
-    fetchDataPost(stockUserId);
+    fetchDataPost();
   };
 
   return (
@@ -132,6 +139,9 @@ const Settings = () => {
         ></input>
         <label>
           <input type='submit' value='submit'></input>
+        </label>
+        <label>
+         <DeleteUser StockUserId={stockUserId}/>
         </label>
       </form>
     </div>
