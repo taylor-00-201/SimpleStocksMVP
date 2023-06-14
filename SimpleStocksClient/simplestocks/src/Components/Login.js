@@ -194,6 +194,8 @@ export const Login = (props) => {
 
   return (
     <>
+      {" "}
+      Returning User? Log in here!
       <form onSubmit={submissionHandler}>
         <label>
           Email:

@@ -8,7 +8,6 @@ export const DeleteUser = (props) => {
       }
     );
 
-
     if (!response.ok) {
       const badData = await response.json();
       throw new Error(data.message);

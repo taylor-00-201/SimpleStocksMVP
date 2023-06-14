@@ -6,6 +6,7 @@ import Settings from "./Views/Settings";
 import { Login } from "./Components/Login";
 import { BuyStock } from "./Components/BuyStock";
 import { Logout } from "./Components/Logout";
+import RegisterStockUser from "./Components/RegisterStockUser";
 
 export default function App() {
   const [user, setUser] = useState();
@@ -46,11 +47,14 @@ export default function App() {
         SetReRender={setReRender}
       />
       {Display === "Login" && (
-        <Login
-          setDisplay={setDisplay}
-          setIsLoggedIn={setIsLoggedIn}
-          SetUserData={setUser}
-        />
+        <>
+          <Login
+            setDisplay={setDisplay}
+            setIsLoggedIn={setIsLoggedIn}
+            SetUserData={setUser}
+          />
+          <RegisterStockUser />
+        </>
       )}
       {Display === "BuyStock" && <BuyStock User={user} />}
       {Display === "Settings" && <Settings />}
