@@ -161,7 +161,7 @@ namespace SimpleStocks.Repositories
 
             if (transactionList.Count == 0)
             {
-                throw new Exception("There was a problem with the database");
+                Console.WriteLine("There was a problem with the database");
             }
 
             return transactionList;

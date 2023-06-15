@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useFetcher } from "react-router-dom";
 import StockCard from "./StockCard";
 import BuyStockEngine from "./BuyStockEngine";
+import BuyStockModal from "./Styling/BuyStockModal";
 
 export const BuyStock = (props) => {
   const [userTransactions, setUserTransactions] = useState([]);
@@ -13,6 +14,7 @@ export const BuyStock = (props) => {
   const parsedTransactions = userTransactions;
   const StockUser = JSON.parse(localStorage.getItem("StockUser"));
   const stockUserId = StockUser ? StockUser.id : null;
+  const[IsOpen, setIsOpen]=useState(false);
 
   const fetchUserTransactions = async (stockUserId) => {
     const apiResponse = await fetch(
@@ -95,12 +97,18 @@ export const BuyStock = (props) => {
                 <h1>Date: {match.transaction.datetime}</h1>
               </div>
               <div>
-                <div>
-                  <h1>Stock</h1>
-                  <h1>Stock Symbol: {match.stock.symbol}</h1>
-                  <h1>Stock Name: {match.stock.name}</h1>
-                  <h1>Stock Price: {match.stock.currentPrice}</h1>
-                </div>
+                <h1>Stock</h1>
+                <h1>Stock Symbol: {match.stock.symbol}</h1>
+                <h1>Stock Name: {match.stock.name}</h1>
+                <h1>Stock Price: {match.stock.currentPrice}</h1>
+                <button onClick={() => setIsOpen(true)}>Sell Stock</button>
+                <BuyStockModal
+                  stock={match.stock}
+                  NewPrice={match.stock.currentPrice}
+                  IsOpen={IsOpen}
+                  SetIsOpen={setIsOpen}
+                  ActionType={"Sell"}
+                />
               </div>
               {console.log(match.stock, match.transaction)}
             </div>
