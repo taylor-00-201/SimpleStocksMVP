@@ -10,11 +10,12 @@ export const BuyStock = (props) => {
   const [matchingStockTransaction, setMatchingStockTransaction] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [userStocks, setUserStocks] = useState([]);
+  const [userBalance, setUserBalance] = useState(0.0);
 
   const parsedTransactions = userTransactions;
   const StockUser = JSON.parse(localStorage.getItem("StockUser"));
   const stockUserId = StockUser ? StockUser.id : null;
-  const[IsOpen, setIsOpen]=useState(false);
+  const [IsOpen, setIsOpen] = useState(false);
 
   const fetchUserTransactions = async (stockUserId) => {
     const apiResponse = await fetch(
@@ -59,11 +60,23 @@ export const BuyStock = (props) => {
     setMatchingStockTransaction(matches);
   };
 
+  const returnUserBalance = async () => {
+    const bankApiResponse = await fetch(
+      `https://localhost:7043/api/StockUser/getuserbyid/${stockUserId}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const userBalance = data.balance;
+        setUserBalance(userBalance);
+      });
+  };
+
   useEffect(() => {
     if (stockUserId) {
       fetchUserTransactions(stockUserId);
       fetchStocks();
       identifyUserStocks();
+      returnUserBalance();
     }
   }, [stockUserId]);
 
@@ -83,6 +96,7 @@ export const BuyStock = (props) => {
 
   return (
     <div>
+      <div>Your Balance is ${userBalance}</div>
       {stocks.length !== 0 &&
         stocks.map((stock, index) => <StockCard index={index} stock={stock} />)}
       <BuyStockEngine stock={stocks} />
@@ -90,7 +104,7 @@ export const BuyStock = (props) => {
         {matchingStockTransaction.length !== 0 &&
           matchingStockTransaction.map((match, index) => (
             <div key={index}>
-              <div>
+              <div style={{border: "1px solid black", padding: "5px"}}>
                 <h1>transaction History</h1>
                 <h1>transaction Type: {match.transaction.transactionType}</h1>
                 <h1>Quantity: {match.transaction.quantity}</h1>

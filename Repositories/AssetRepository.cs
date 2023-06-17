@@ -183,7 +183,7 @@ namespace SimpleStocks.Repositories
 
                 if (assets.Count == 0)
                 {
-                    throw new Exception("No assets Found");
+                    Console.WriteLine("No assets found");
                 }
             }
             return assets;

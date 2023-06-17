@@ -47,7 +47,6 @@ namespace SimpleStocks.Repositories
                                 Quantity = DbUtils.GetInt(reader, "Quantity"),
                                 AssetId = DbUtils.GetInt(reader, "AssetId"),
                                 DateTime = DbUtils.GetDateTime(reader, "DateTime"),
-                                OrderId = DbUtils.GetInt(reader, "OrderId"),
                                 Amount = DbUtils.GetDecimal(reader, "Amount")
                             };
 
@@ -97,7 +96,6 @@ namespace SimpleStocks.Repositories
                                 Quantity = DbUtils.GetInt(reader, "Quantity"),
                                 AssetId = DbUtils.GetInt(reader, "AssetId"),
                                 DateTime = DbUtils.GetDateTime(reader, "DateTime"),
-                                OrderId = DbUtils.GetInt(reader, "OrderId"),
                                 Amount = DbUtils.GetDecimal(reader, "Amount")
                             };
 
@@ -145,7 +143,6 @@ namespace SimpleStocks.Repositories
                                 Quantity = DbUtils.GetInt(reader, "Quantity"),
                                 AssetId = DbUtils.GetInt(reader, "AssetId"),
                                 DateTime = DbUtils.GetDateTime(reader, "DateTime"),
-                                OrderId = DbUtils.GetInt(reader, "OrderId"),
                                 Amount = DbUtils.GetDecimal(reader, "Amount")
                             };
 
@@ -178,15 +175,14 @@ namespace SimpleStocks.Repositories
 
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"INSERT INTO Transactions ([UserId], [TransactionType], [Quantity], [AssetId], [DateTime], [OrderId], [Amount]) 
-                                       Values (@UserId, @TransactionType, @Quantity, @AssetId, @DateTime, @OrderId, @Amount);";
+                        cmd.CommandText = @"INSERT INTO Transactions ([UserId], [TransactionType], [Quantity], [AssetId], [DateTime], [Amount]) 
+                                       Values (@UserId, @TransactionType, @Quantity, @AssetId, @DateTime, @Amount);";
 
                         cmd.Parameters.AddWithValue("@UserId", transaction.UserId);
                         cmd.Parameters.AddWithValue("@TransactionType", transaction.TransactionType);
                         cmd.Parameters.AddWithValue("@Quantity", transaction.Quantity);
                         cmd.Parameters.AddWithValue("@AssetId", transaction.AssetId);
                         cmd.Parameters.AddWithValue("@DateTime", transaction.DateTime);
-                        cmd.Parameters.AddWithValue("@OrderId", transaction.OrderId);
                         cmd.Parameters.AddWithValue("@Amount", transaction.Amount);
                         cmd.ExecuteNonQuery();
                     }
@@ -212,7 +208,6 @@ namespace SimpleStocks.Repositories
                                       Quantity = @Quantity,
                                       AssetId = @AssetId,
                                       DateTime = @DateTime,
-                                      OrderId = @OrderId, 
                                       Amount = @Amount
                                       Where Id = @Id;";
 
@@ -221,7 +216,6 @@ namespace SimpleStocks.Repositories
                     cmd.Parameters.AddWithValue("@Quantity", transaction.Quantity);
                     cmd.Parameters.AddWithValue("@AssetId", transaction.AssetId);
                     cmd.Parameters.AddWithValue("@DateTime", transaction.DateTime);
-                    cmd.Parameters.AddWithValue("@OrderId", transaction.OrderId);
                     cmd.Parameters.AddWithValue("@Amount", transaction.Amount);
                     var foundTransaction = (int)cmd.ExecuteNonQuery();
 

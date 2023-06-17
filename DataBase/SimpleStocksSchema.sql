@@ -53,7 +53,6 @@ CREATE TABLE [Transactions] (
   [Quantity] integer not null,
   [AssetId] integer not null,
   [DateTime] DateTime not null,
-  [OrderId] integer UNIQUE not null,
   [Amount] decimal not null
 )
 GO
