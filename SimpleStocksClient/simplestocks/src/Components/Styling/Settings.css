@@ -1,0 +1,16 @@
+.Main
+{
+  height: 100vh;
+}
+
+.Main form
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.Main form input
+{
+    width: 50%;
+    margin: 0% 25%;
+}

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { json } from "react-router-dom";
 import { DeleteUser } from "../Components/Styling/DeleteUser";
+import "../Components/Styling/Settings.css"
 
 const Settings = () => {
   const [userName, setUserName] = useState("");
@@ -62,80 +63,69 @@ const Settings = () => {
   };
 
   return (
-    <div>
+    <div className="Main">
       <h1>Modify User Settings Here</h1>
 
       <form onSubmit={submissionHandler}>
-        <label>
-          UserName:
           <input
             type='text'
             value={userName}
             onChange={(event) => setUserName(event.target.value)}
+            placeholder="UserName"
           ></input>
-        </label>
-        Email:
         <input
           type='text'
           value={Email}
           onChange={(event) => setEmail(event.target.value)}
+          placeholder="Email"
         ></input>
-        <label></label>
-        First Name:
         <input
           type='text'
           value={FirstName}
           onChange={(event) => setFirstName(event.target.value)}
+          placeholder="First Name"
         ></input>
-        <label></label>
-        Last Name:
         <input
           type='text'
           value={LastName}
           onChange={(event) => setLastName(event.target.value)}
+          placeholder="Last Name"
         ></input>
-        <label></label>
-        <label></label>
-        Password:
         <input
           type='text'
           value={passwordHash}
           onChange={(event) => setPasswordHash(event.target.value)}
+          placeholder="Password"
         ></input>
-        <label></label>
-        Address Line One:
         <input
           type='text'
           value={addressLineOne}
           onChange={(event) => setAddressLineOne(event.target.value)}
+          placeholder="Address Line One"
         ></input>
-        <label></label>
-        Address Line Two:
         <input
           type='text'
           value={addressLineTwo}
           onChange={(event) => setAddressLineTwo(event.target.value)}
+          placeholder="Address Line Two"
         ></input>
-        <label></label>
-        City:
         <input
           type='text'
           value={City}
           onChange={(event) => setCity(event.target.value)}
+          placeholder="City"
         ></input>
-        <label></label>
-        State:
         <input
           type='text'
           value={State}
           onChange={(event) => setState(event.target.value)}
+          placeholder="State"
         ></input>
-        <label></label>
-        Zip:
         <input
           type='text'
           value={Zip}
           onChange={(event) => setZip(event.target.value)}
+          placeholder="Zip"
         ></input>
         <label>
           <input type='submit' value='submit'></input>

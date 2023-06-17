@@ -4,6 +4,7 @@ import { useFetcher } from "react-router-dom";
 import StockCard from "./StockCard";
 import BuyStockEngine from "./BuyStockEngine";
 import BuyStockModal from "./Styling/BuyStockModal";
+import "./Styling/BuyStock.css"
 
 export const BuyStock = (props) => {
   const [userTransactions, setUserTransactions] = useState([]);
@@ -97,9 +98,11 @@ export const BuyStock = (props) => {
   return (
     <div>
       <div>Your Balance is ${userBalance}</div>
+      <div className="Cards">
       {stocks.length !== 0 &&
         stocks.map((stock, index) => <StockCard index={index} stock={stock} />)}
-      <BuyStockEngine stock={stocks} />
+      {/* <BuyStockEngine stock={stocks} /> */}
+      </div>
       <div>
         {matchingStockTransaction.length !== 0 &&
           matchingStockTransaction.map((match, index) => (
